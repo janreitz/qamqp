@@ -31,11 +31,11 @@ public:
     virtual void write(QDataStream &out) = 0;
 };
 
-class QAMQP_EXPORT QAmqpPlainAuthenticator : public QAmqpAuthenticator
+class QAMQP_EXPORT QAmqpAMQPlainAuthenticator : public QAmqpAuthenticator
 {
 public:
-    QAmqpPlainAuthenticator(const QString &login = QString(), const QString &password = QString());
-    virtual ~QAmqpPlainAuthenticator();
+    QAmqpAMQPlainAuthenticator(const QString &login = QString(), const QString &password = QString());
+    virtual ~QAmqpAMQPlainAuthenticator();
 
     QString login() const;
     void setLogin(const QString &l);
@@ -49,6 +49,28 @@ public:
 private:
     QString login_;
     QString password_;
+
+};
+
+
+class QAMQP_EXPORT QAmqpPlainAuthenticator : public QAmqpAuthenticator
+{
+public:
+   QAmqpPlainAuthenticator(const QString &login = QString(), const QString &password = QString());
+   virtual ~QAmqpPlainAuthenticator();
+
+   QString login() const;
+   void setLogin(const QString &l);
+
+   QString password() const;
+   void setPassword(const QString &p);
+
+   virtual QString type() const;
+   virtual void write(QDataStream &out);
+
+private:
+   QString login_;
+   QString password_;
 
 };
 

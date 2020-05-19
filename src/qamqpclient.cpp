@@ -50,7 +50,7 @@ void QAmqpClientPrivate::init()
     QObject::connect(reconnectTimer, SIGNAL(timeout()), q, SLOT(_q_connect()));
 
     authenticator = QSharedPointer<QAmqpAuthenticator>(
-        new QAmqpPlainAuthenticator(QString::fromLatin1(AMQP_LOGIN), QString::fromLatin1(AMQP_PSWD)));
+        new QAmqpAMQPlainAuthenticator(QString::fromLatin1(AMQP_LOGIN), QString::fromLatin1(AMQP_PSWD)));
 }
 
 void QAmqpClientPrivate::initSocket()
@@ -91,7 +91,7 @@ void QAmqpClientPrivate::setUsername(const QString &username)
 {
     QAmqpAuthenticator *auth = authenticator.data();
     if (auth && auth->type() == QLatin1String("AMQPLAIN")) {
-        QAmqpPlainAuthenticator *a = static_cast<QAmqpPlainAuthenticator*>(auth);
+        QAmqpAMQPlainAuthenticator *a = static_cast<QAmqpAMQPlainAuthenticator*>(auth);
         a->setLogin(username);
     }
 }
@@ -100,7 +100,7 @@ void QAmqpClientPrivate::setPassword(const QString &password)
 {
     QAmqpAuthenticator *auth = authenticator.data();
     if (auth && auth->type() == QLatin1String("AMQPLAIN")) {
-        QAmqpPlainAuthenticator *a = static_cast<QAmqpPlainAuthenticator*>(auth);
+        QAmqpAMQPlainAuthenticator *a = static_cast<QAmqpAMQPlainAuthenticator*>(auth);
         a->setPassword(password);
     }
 }
@@ -669,7 +669,7 @@ QString QAmqpClient::username() const
     Q_D(const QAmqpClient);
     const QAmqpAuthenticator *auth = d->authenticator.data();
     if (auth && auth->type() == QLatin1String("AMQPLAIN")) {
-        const QAmqpPlainAuthenticator *a = static_cast<const QAmqpPlainAuthenticator*>(auth);
+        const QAmqpAMQPlainAuthenticator *a = static_cast<const QAmqpAMQPlainAuthenticator*>(auth);
         return a->login();
     }
 
@@ -687,7 +687,7 @@ QString QAmqpClient::password() const
     Q_D(const QAmqpClient);
     const QAmqpAuthenticator *auth = d->authenticator.data();
     if (auth && auth->type() == QLatin1String("AMQPLAIN")) {
-        const QAmqpPlainAuthenticator *a = static_cast<const QAmqpPlainAuthenticator*>(auth);
+        const QAmqpAMQPlainAuthenticator *a = static_cast<const QAmqpAMQPlainAuthenticator*>(auth);
         return a->password();
     }
 
