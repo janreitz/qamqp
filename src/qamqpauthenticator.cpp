@@ -101,3 +101,47 @@ void QAmqpPlainAuthenticator::write(QDataStream &out)
 
    out << data;
 }
+
+
+QAmqpJWTAuthenticator::QAmqpJWTAuthenticator(const QString &token)
+   : token_(token)
+{
+}
+
+QAmqpJWTAuthenticator::~QAmqpJWTAuthenticator()
+{
+}
+
+QString QAmqpJWTAuthenticator::token() const
+{
+   return token_;
+}
+
+QString QAmqpJWTAuthenticator::type() const
+{
+   return "PLAIN";
+}
+
+void QAmqpJWTAuthenticator::setToken(const QString &token)
+{
+   token_ = token;
+}
+
+void QAmqpJWTAuthenticator::write(QDataStream &out)
+{
+   QAmqpFrame::writeAmqpField(out, QAmqpMetaType::ShortString, type());
+
+   QByteArray data;
+   QDataStream s(&data, QIODevice::WriteOnly);
+
+   const quint8 nll = 0;
+
+   s << nll;
+   const auto l = QString("").toUtf8();
+   s.writeRawData(l.constData(), l.size());
+   s << nll;
+   const auto t = token().toUtf8();
+   s.writeRawData(t.constData(), t.size());
+
+   out << data;
+}

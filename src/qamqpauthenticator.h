@@ -74,4 +74,22 @@ private:
 
 };
 
+// This is specific to a RabbitMQ Plugin TODO: JiaHang fragen welches
+class QAMQP_EXPORT QAmqpJWTAuthenticator : public QAmqpAuthenticator
+{
+public:
+   QAmqpJWTAuthenticator(const QString &token = QString());
+   virtual ~QAmqpJWTAuthenticator();
+
+   QString token() const;
+   void setToken(const QString &t);
+
+   virtual QString type() const;
+   virtual void write(QDataStream &out);
+
+private:
+   QString token_;
+
+};
+
 #endif // QAMQPAUTHENTICATOR_H
